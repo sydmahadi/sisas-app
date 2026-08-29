@@ -101,6 +101,34 @@ class _MainBrowserScreenState extends State<MainBrowserScreen> {
       ..loadRequest(Uri.parse(homeUrl));
   }
 
+  // Developer Info Dialog Function
+  void _showDeveloperInfo() {
+    showAboutDialog(
+      context: context,
+      applicationName: 'সিন্দাবাদ সাহিত্য সংসদ',
+      applicationVersion: 'Version 1.0.0',
+      applicationIcon: const CircleAvatar(
+        backgroundColor: Color(0xFF1B5E20),
+        child: Icon(Icons.auto_stories, color: Colors.white),
+      ),
+      children: const [
+        SizedBox(height: 15),
+        Text(
+          'অ্যাপ ডেভেলপমেন্ট তথ্য:',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFD32F2F)),
+        ),
+        SizedBox(height: 5),
+        Text('ডেভেলপার: Talpatar Sepai'),
+        Text('ইমেইল: mahadisayeed@gmail.com'),
+        SizedBox(height: 10),
+        Text(
+          'সিন্দাবাদ সাহিত্য সংসদের সার্বিক সুবিধার জন্য এই অফিশিয়াল অ্যান্ড্রয়েড অ্যাপ্লিকেশনটি তৈরি করা হয়েছে।',
+          style: TextStyle(fontSize: 12, color: Colors.grey),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,15 +141,14 @@ class _MainBrowserScreenState extends State<MainBrowserScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: const Color(0xFF1B5E20), // Deep Green
+        backgroundColor: const Color(0xFF1B5E20),
         elevation: 4,
         actions: [
-          // Red Vibe Quiz Button
           Container(
             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFD32F2F), // Crimson Red
+                backgroundColor: const Color(0xFFD32F2F),
                 foregroundColor: Colors.white,
                 elevation: 3,
                 shape: RoundedRectangleBorder(
@@ -145,14 +172,13 @@ class _MainBrowserScreenState extends State<MainBrowserScreen> {
           ),
         ],
       ),
-      // Side Drawer with Gradient Header (Green to Red Touch)
       drawer: Drawer(
         child: Column(
           children: [
             UserAccountsDrawerHeader(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFF1B5E20), Color(0xFFB71C1C)], // Green to Dark Red
+                  colors: [Color(0xFF1B5E20), Color(0xFFB71C1C)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -161,7 +187,7 @@ class _MainBrowserScreenState extends State<MainBrowserScreen> {
                 'সিন্দাবাদ সাহিত্য সংসদ',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              accountEmail: const Text('স্বাগতম আমাদের অফিসিয়াল অ্যাপে'),
+              accountEmail: const Text('স্বাগতম আমাদের অফিশিয়াল অ্যাপে'),
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.white,
                 child: Icon(Icons.auto_stories, color: Colors.red.shade800, size: 36),
@@ -201,6 +227,34 @@ class _MainBrowserScreenState extends State<MainBrowserScreen> {
                 },
               ),
             ),
+            const Divider(),
+            // Developer Info Button
+            ListTile(
+              leading: const Icon(Icons.code_rounded, color: Color(0xFFD32F2F)),
+              title: const Text(
+                'ডেভেলপার ইনফো',
+                style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFD32F2F)),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                _showDeveloperInfo();
+              },
+            ),
+            // Footer Credit
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              width: double.infinity,
+              color: Colors.grey.shade100,
+              child: const Text(
+                'Developed by Talpatar Sepai',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF1B5E20),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -215,7 +269,6 @@ class _MainBrowserScreenState extends State<MainBrowserScreen> {
             ),
         ],
       ),
-      // Navigation Bottom Bar
       bottomNavigationBar: Container(
         height: 55,
         decoration: BoxDecoration(
