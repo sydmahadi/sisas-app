@@ -25,16 +25,34 @@ jobs:
           flutter-version: '3.19.0'
           channel: 'stable'
 
-      - name: Create Flutter App Shell
+      - name: Setup App Structure & Renaming
         run: |
-          mkdir -p temp_app
-          cd temp_app
-          flutter create . --org com.sisasbd.app
+          mkdir -p temp_project
+          cd temp_project
+          flutter create . --org com.sisasbd.app --project-name sindabad_app
           cp -r * ..
           cd ..
-          rm -rf temp_app
+          rm -rf temp_project
           mkdir -p lib
           if [ -f main.dart ]; then mv main.dart lib/main.dart; fi
+          
+          # Android App Name Set
+          sed -i 's/android:label=".*"/android:label="সিন্দাবাদ সাহিত্য সংসদ"/' android/app/src/main/AndroidManifest.xml
+
+      - name: Add App Icon
+        run: |
+          if [ -f icon.png ]; then
+            flutter pub add flutter_launcher_icons
+            cat <<EOT >> pubspec.yaml
+
+          flutter_launcher_icons:
+            android: "launcher_icon"
+            image_path: "icon.png"
+            min_sdk_android: 21
+          EOT
+            flutter pub get
+            dart run flutter_launcher_icons
+          fi
 
       - name: Get Dependencies
         run: |
