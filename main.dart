@@ -14,9 +14,11 @@ class SisasApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'সিন্দাবাদ সাহিত্য সংসদ',
       theme: ThemeData(
+        primaryColor: const Color(0xFF1B5E20), // Deep Green
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF1E88E5),
-          primary: const Color(0xFF1E88E5),
+          seedColor: const Color(0xFF1B5E20),
+          primary: const Color(0xFF1B5E20),
+          secondary: const Color(0xFFD32F2F), // Red Vibe
         ),
         useMaterial3: true,
       ),
@@ -36,18 +38,45 @@ class _MainBrowserScreenState extends State<MainBrowserScreen> {
   late final WebViewController _controller;
   bool _isLoading = true;
 
-  // আপনার প্রদানকৃত সঠিক লিংকসমূহ
   final String homeUrl = 'https://sisasbd.blogspot.com';
   final String quizUrl = 'https://sisasbd.blogspot.com/p/36julyquiz.html';
 
-  final List<Map<String, String>> menuItems = const [
-    {'title': 'পরিচালনা পর্ষদ', 'url': 'https://sisasbd.blogspot.com/p/blog-page_15.html'},
-    {'title': 'লেখকবৃন্দ', 'url': 'https://sisasbd.blogspot.com/p/blog-page_294.html'},
-    {'title': 'নোটিশ/চিঠি', 'url': 'https://sisasbd.blogspot.com/p/blog-page.html'},
-    {'title': 'কার্যক্রমসমূহ', 'url': 'https://sisasbd.blogspot.com/p/blog-page_75.html'},
-    {'title': 'সিলেবাস', 'url': 'https://sisasbd.blogspot.com/p/blog-page_72.html'},
-    {'title': 'আমাদের সম্পর্কে', 'url': 'https://sisasbd.blogspot.com/p/blog-page_10.html'},
-    {'title': 'আমাদের সাথে যোগাযোগ', 'url': 'https://sisasbd.blogspot.com/p/blog-page_151.html'},
+  final List<Map<String, dynamic>> menuItems = const [
+    {
+      'title': 'পরিচালনা পর্ষদ',
+      'url': 'https://sisasbd.blogspot.com/p/blog-page_15.html',
+      'icon': Icons.groups_rounded
+    },
+    {
+      'title': 'লেখকবৃন্দ',
+      'url': 'https://sisasbd.blogspot.com/p/blog-page_294.html',
+      'icon': Icons.history_edu_rounded
+    },
+    {
+      'title': 'নোটিশ/চিঠি',
+      'url': 'https://sisasbd.blogspot.com/p/blog-page.html',
+      'icon': Icons.campaign_rounded
+    },
+    {
+      'title': 'কার্যক্রমসমূহ',
+      'url': 'https://sisasbd.blogspot.com/p/blog-page_75.html',
+      'icon': Icons.event_note_rounded
+    },
+    {
+      'title': 'সিলেবাস',
+      'url': 'https://sisasbd.blogspot.com/p/blog-page_72.html',
+      'icon': Icons.menu_book_rounded
+    },
+    {
+      'title': 'আমাদের সম্পর্কে',
+      'url': 'https://sisasbd.blogspot.com/p/blog-page_10.html',
+      'icon': Icons.info_rounded
+    },
+    {
+      'title': 'আমাদের সাথে যোগাযোগ',
+      'url': 'https://sisasbd.blogspot.com/p/blog-page_151.html',
+      'icon': Icons.contact_support_rounded
+    },
   ];
 
   @override
@@ -78,20 +107,36 @@ class _MainBrowserScreenState extends State<MainBrowserScreen> {
       appBar: AppBar(
         title: const Text(
           'সিন্দাবাদ সাহিত্য সংসদ',
-          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        elevation: 2,
+        backgroundColor: const Color(0xFF1B5E20), // Deep Green
+        elevation: 4,
         actions: [
-          // কুইজ প্রতিযোগিতা বাটন (হোমের পাশে)
-          TextButton.icon(
-            onPressed: () {
-              _controller.loadRequest(Uri.parse(quizUrl));
-            },
-            icon: const Icon(Icons.quiz, color: Colors.yellowAccent, size: 20),
-            label: const Text(
-              'কুইজ',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          // Red Vibe Quiz Button
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+            child: ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFD32F2F), // Crimson Red
+                foregroundColor: Colors.white,
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+              ),
+              onPressed: () {
+                _controller.loadRequest(Uri.parse(quizUrl));
+              },
+              icon: const Icon(Icons.quiz_rounded, size: 18, color: Colors.yellowAccent),
+              label: const Text(
+                'কুইজ',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+              ),
             ),
           ),
           IconButton(
@@ -100,58 +145,62 @@ class _MainBrowserScreenState extends State<MainBrowserScreen> {
           ),
         ],
       ),
-      // ড্রয়ার মেনু
+      // Side Drawer with Gradient Header (Green to Red Touch)
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
+        child: Column(
           children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
+            UserAccountsDrawerHeader(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFF1B5E20), Color(0xFFB71C1C)], // Green to Dark Red
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
               ),
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'সিন্দাবাদ সাহিত্য সংসদ',
-                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    'মেনু থেকে পেজ নির্বাচন করুন',
-                    style: TextStyle(color: Colors.white70, fontSize: 12),
-                  ),
-                ],
+              accountName: const Text(
+                'সিন্দাবাদ সাহিত্য সংসদ',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              accountEmail: const Text('স্বাগতম আমাদের অফিসিয়াল অ্যাপে'),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Icon(Icons.auto_stories, color: Colors.red.shade800, size: 36),
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.home, color: Colors.blue),
-              title: const Text('হোম'),
+              leading: const Icon(Icons.home_rounded, color: Color(0xFF1B5E20)),
+              title: const Text('হোম', style: TextStyle(fontWeight: FontWeight.w600)),
               onTap: () {
                 Navigator.pop(context);
                 _controller.loadRequest(Uri.parse(homeUrl));
               },
             ),
             ListTile(
-              leading: const Icon(Icons.quiz, color: Colors.orange),
-              title: const Text('কুইজ প্রতিযোগিতা'),
+              leading: const Icon(Icons.quiz_rounded, color: Color(0xFFD32F2F)),
+              title: const Text('কুইজ প্রতিযোগিতা', style: TextStyle(fontWeight: FontWeight.w600)),
               onTap: () {
                 Navigator.pop(context);
                 _controller.loadRequest(Uri.parse(quizUrl));
               },
             ),
             const Divider(),
-            ...menuItems.map((item) {
-              return ListTile(
-                leading: const Icon(Icons.article_outlined, color: Colors.indigo),
-                title: Text(item['title']!),
-                onTap: () {
-                  Navigator.pop(context);
-                  _controller.loadRequest(Uri.parse(item['url']!));
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: menuItems.length,
+                itemBuilder: (context, index) {
+                  final item = menuItems[index];
+                  return ListTile(
+                    leading: Icon(item['icon'], color: const Color(0xFF1B5E20)),
+                    title: Text(item['title']),
+                    onTap: () {
+                      Navigator.pop(context);
+                      _controller.loadRequest(Uri.parse(item['url']));
+                    },
+                  );
                 },
-              );
-            }),
+              ),
+            ),
           ],
         ),
       ),
@@ -160,19 +209,30 @@ class _MainBrowserScreenState extends State<MainBrowserScreen> {
           WebViewWidget(controller: _controller),
           if (_isLoading)
             const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFD32F2F)),
+              ),
             ),
         ],
       ),
-      // নেভিগেশন বটম বার
+      // Navigation Bottom Bar
       bottomNavigationBar: Container(
-        height: 50,
-        color: Colors.white,
+        height: 55,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 6,
+              offset: const Offset(0, -2),
+            ),
+          ],
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
+              icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Color(0xFF1B5E20)),
               onPressed: () async {
                 if (await _controller.canGoBack()) {
                   await _controller.goBack();
@@ -180,13 +240,13 @@ class _MainBrowserScreenState extends State<MainBrowserScreen> {
               },
             ),
             IconButton(
-              icon: const Icon(Icons.home_outlined),
+              icon: const Icon(Icons.home_rounded, color: Color(0xFFD32F2F), size: 28),
               onPressed: () {
                 _controller.loadRequest(Uri.parse(homeUrl));
               },
             ),
             IconButton(
-              icon: const Icon(Icons.arrow_forward_ios),
+              icon: const Icon(Icons.arrow_forward_ios_rounded, color: Color(0xFF1B5E20)),
               onPressed: () async {
                 if (await _controller.canGoForward()) {
                   await _controller.goForward();
