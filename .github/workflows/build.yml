@@ -36,8 +36,12 @@ jobs:
           mkdir -p lib
           if [ -f main.dart ]; then mv main.dart lib/main.dart; fi
           
-          # Android App Name Set
+          # App Name Setup
           sed -i 's/android:label=".*"/android:label="সিন্দাবাদ সাহিত্য সংসদ"/' android/app/src/main/AndroidManifest.xml
+
+          # Add Internet Permissions to AndroidManifest.xml
+          sed -i '/<manifest/a \    <uses-permission android:name="android.permission.INTERNET"/>\n    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>' android/app/src/main/AndroidManifest.xml
+          sed -i 's/<application/<application android:usesCleartextTraffic="true"/' android/app/src/main/AndroidManifest.xml
 
       - name: Add App Icon
         run: |
