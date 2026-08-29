@@ -15,206 +15,40 @@ class SisasApp extends StatelessWidget {
       title: 'সিন্দাবাদ সাহিত্য সংসদ',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF1E88E5), // সুন্দর নীল থিম
+          seedColor: const Color(0xFF1E88E5),
           primary: const Color(0xFF1E88E5),
         ),
         useMaterial3: true,
-        fontFamily: 'Roboto',
       ),
-      home: const HomeScreen(),
+      home: const MainBrowserScreen(),
     );
   }
 }
 
-// ------------------- হোম স্ক্রিন (ড্যাশবোর্ড UI) -------------------
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  // মেনুর ডাটা লিস্ট (এখানে ওয়েবসাইটের লিংকগুলো বসাবেন)
-  final List<Map<String, dynamic>> menuItems = const [
-    {
-      'title': 'হোম পেজ',
-      'icon': Icons.home_rounded,
-      'color': Colors.blue,
-      'url': 'https://sisasbd.blogspot.com/',
-    },
-    {
-      'title': 'আমাদের সম্পর্কে',
-      'icon': Icons.info_outline_rounded,
-      'color': Colors.purple,
-      'url': 'https://sisasbd.blogspot.com/p/about-us.html', // আপনার সঠিক লিংক দিন
-    },
-    {
-      'title': 'কার্যক্রম / সেবা',
-      'icon': Icons.design_services_rounded,
-      'color': Colors.orange,
-      'url': 'https://sisasbd.blogspot.com/p/services.html', // আপনার সঠিক লিংক দিন
-    },
-    {
-      'title': 'সাহিত্য ও ব্লগ',
-      'icon': Icons.article_rounded,
-      'color': Colors.green,
-      'url': 'https://sisasbd.blogspot.com/p/blog.html', // আপনার সঠিক লিংক দিন
-    },
-    {
-      'title': 'যোগাযোগ',
-      'icon': Icons.contact_support_rounded,
-      'color': Colors.red,
-      'url': 'https://sisasbd.blogspot.com/p/contact.html', // আপনার সঠিক লিংক দিন
-    },
-  ];
+class MainBrowserScreen extends StatefulWidget {
+  const MainBrowserScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF4F6F9), // ব্যাকগ্রাউন্ড কালার
-      appBar: AppBar(
-        title: const Text(
-          'সিন্দাবাদ সাহিত্য সংসদ',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        elevation: 4,
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ওয়েলকাম ব্যানার
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.blue.shade700, Colors.blue.shade400],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.blue.withOpacity(0.3),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'সিন্দাবাদ সাহিত্য সংসদ',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 6),
-                  Text(
-                    'আমাদের ওয়েবসাইট এবং সকল সাহিত্যিক কার্যক্রম অ্যাপেই ব্রাউজ করুন।',
-                    style: TextStyle(color: Colors.white70, fontSize: 13),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24),
-            const Text(
-              'প্রধান মেনু',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            // মেনু কার্ড গ্রিড
-            Expanded(
-              child: GridView.builder(
-                itemCount: menuItems.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // প্রতি লাইনে ২টি করে বাটন
-                  crossAxisSpacing: 14,
-                  mainAxisSpacing: 14,
-                  childAspectRatio: 1.1,
-                ),
-                itemBuilder: (context, index) {
-                  final item = menuItems[index];
-                  return Card(
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(16),
-                      onTap: () {
-                        // WebView স্ক্রিনে নিয়ে যাবে
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => WebViewScreen(
-                              title: item['title'],
-                              url: item['url'],
-                            ),
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CircleAvatar(
-                              radius: 28,
-                              backgroundColor:
-                                  (item['color'] as Color).withOpacity(0.15),
-                              child: Icon(
-                                item['icon'],
-                                size: 30,
-                                color: item['color'],
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            Text(
-                              item['title'],
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  State<MainBrowserScreen> createState() => _MainBrowserScreenState();
 }
 
-// ------------------- ওয়েবসাইট দেখানোর জন্য WebView স্ক্রিন -------------------
-class WebViewScreen extends StatefulWidget {
-  final String title;
-  final String url;
-
-  const WebViewScreen({super.key, required this.title, required this.url});
-
-  @override
-  State<WebViewScreen> createState() => _WebViewScreenState();
-}
-
-class _WebViewScreenState extends State<WebViewScreen> {
+class _MainBrowserScreenState extends State<MainBrowserScreen> {
   late final WebViewController _controller;
   bool _isLoading = true;
+
+  // আপনার প্রদানকৃত সঠিক লিংকসমূহ
+  final String homeUrl = 'https://sisasbd.blogspot.com';
+  final String quizUrl = 'https://sisasbd.blogspot.com/p/36julyquiz.html';
+
+  final List<Map<String, String>> menuItems = const [
+    {'title': 'পরিচালনা পর্ষদ', 'url': 'https://sisasbd.blogspot.com/p/blog-page_15.html'},
+    {'title': 'লেখকবৃন্দ', 'url': 'https://sisasbd.blogspot.com/p/blog-page_294.html'},
+    {'title': 'নোটিশ/চিঠি', 'url': 'https://sisasbd.blogspot.com/p/blog-page.html'},
+    {'title': 'কার্যক্রমসমূহ', 'url': 'https://sisasbd.blogspot.com/p/blog-page_75.html'},
+    {'title': 'সিলেবাস', 'url': 'https://sisasbd.blogspot.com/p/blog-page_72.html'},
+    {'title': 'আমাদের সম্পর্কে', 'url': 'https://sisasbd.blogspot.com/p/blog-page_10.html'},
+    {'title': 'আমাদের সাথে যোগাযোগ', 'url': 'https://sisasbd.blogspot.com/p/blog-page_151.html'},
+  ];
 
   @override
   void initState() {
@@ -235,31 +69,132 @@ class _WebViewScreenState extends State<WebViewScreen> {
           },
         ),
       )
-      ..loadRequest(Uri.parse(widget.url));
+      ..loadRequest(Uri.parse(homeUrl));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text(
+          'সিন্দাবাদ সাহিত্য সংসদ',
+          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Colors.white,
+        elevation: 2,
         actions: [
+          // কুইজ প্রতিযোগিতা বাটন (হোমের পাশে)
+          TextButton.icon(
+            onPressed: () {
+              _controller.loadRequest(Uri.parse(quizUrl));
+            },
+            icon: const Icon(Icons.quiz, color: Colors.yellowAccent, size: 20),
+            label: const Text(
+              'কুইজ',
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+          ),
           IconButton(
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(Icons.refresh, color: Colors.white),
             onPressed: () => _controller.reload(),
           ),
         ],
+      ),
+      // ড্রয়ার মেনু
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'সিন্দাবাদ সাহিত্য সংসদ',
+                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    'মেনু থেকে পেজ নির্বাচন করুন',
+                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home, color: Colors.blue),
+              title: const Text('হোম'),
+              onTap: () {
+                Navigator.pop(context);
+                _controller.loadRequest(Uri.parse(homeUrl));
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.quiz, color: Colors.orange),
+              title: const Text('কুইজ প্রতিযোগিতা'),
+              onTap: () {
+                Navigator.pop(context);
+                _controller.loadRequest(Uri.parse(quizUrl));
+              },
+            ),
+            const Divider(),
+            ...menuItems.map((item) {
+              return ListTile(
+                leading: const Icon(Icons.article_outlined, color: Colors.indigo),
+                title: Text(item['title']!),
+                onTap: () {
+                  Navigator.pop(context);
+                  _controller.loadRequest(Uri.parse(item['url']!));
+                },
+              );
+            }),
+          ],
+        ),
       ),
       body: Stack(
         children: [
           WebViewWidget(controller: _controller),
           if (_isLoading)
             const Center(
-              child: CircularProgressIndicator(), // লোডিং ইন্ডিকেটর
+              child: CircularProgressIndicator(),
             ),
         ],
+      ),
+      // নেভিগেশন বটম বার
+      bottomNavigationBar: Container(
+        height: 50,
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () async {
+                if (await _controller.canGoBack()) {
+                  await _controller.goBack();
+                }
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.home_outlined),
+              onPressed: () {
+                _controller.loadRequest(Uri.parse(homeUrl));
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.arrow_forward_ios),
+              onPressed: () async {
+                if (await _controller.canGoForward()) {
+                  await _controller.goForward();
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
